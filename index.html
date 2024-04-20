@@ -1,1 +1,96 @@
-j
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>City Paw Animal Rescue</title>
+    <link rel="stylesheet" type="text/css" href="charityprofile.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        /* Set height for map container */
+        #map {
+            height: 300px;
+        }
+    </style>
+</head>
+<body>
+    <nav style="background-color: #444; color: #fff; text-align: center; padding: 10px 0;">
+        <a href="homepage.html" style="color: #fff; text-decoration: none; padding: 0 20px;">Homepage</a>
+        <a href="charitylist.html" style="color: #fff; text-decoration: none; padding: 0 20px;">Charity List</a>
+    </nav>
+    <div class="container">
+        <div class="header">
+            <h1>City Paw Animal Rescue</h1>
+            <p>Changing the world one volunteer at a time</p>
+        </div>
+        
+        <div class="box">
+            <h2>Interested in helping?</h2>
+            <p>About us:</p>
+            <p>City Paws Animal Rescue is dedicated to rescuing and finding homes for abandoned pets in urban areas, ensuring they receive the care and love they deserve.</p>
+        </div>
+        
+        <div class="box">
+            <h2>Mission Statement</h2>
+            <p>Our mission is to provide shelter, care, and love for abandoned pets, and to find them permanent homes where they can thrive.</p>
+        </div>
+        
+        <div class="box">
+            <h2>Contact Information</h2>
+            <p>Phone: 123-456-7890</p>
+            <p>Email: info@citypawsrescue.com</p>
+        </div>
+        
+        <a href="#" id="volunteer-button" class="button" onclick="openForm()">Click here to volunteer</a>
+        
+        <div id="volunteerForm" style="display: none;">
+            <h2>Volunteer Form</h2>
+            <form>
+                <label for="name">Name:</label><br>
+                <input type="text" id="name" name="name"><br>
+                <label for="phone">Phone:</label><br>
+                <input type="text" id="phone" name="phone"><br><br>
+                <input type="submit" value="Submit">
+            </form>
+        </div>
+
+      
+        <p id="additional-info">Hover over this text for more information!</p>
+    </div>
+
+   
+    <div id="map"></div>
+
+    
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        function fetchMapCoordinates() {
+            fetch('pk.eyJ1IjoibHJhZ2VyMjciLCJhIjoiY2x2OGwxa3ZnMGxobTJrb2VoNHJpbnR5MiJ9.11U5iv8X9ylSdyIaRH8r-A')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to fetch map coordinates');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    initializeMap(data.latitude, data.longitude);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    initializeMap(32.7767, -96.7970); 
+                });
+        }
+
+        function initializeMap(latitude, longitude) {
+            var map = L.map('map').setView([latitude, longitude], 10);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            }).addTo(map);
+
+            var marker = L.marker([latitude, longitude]).addTo(map);
+        }
+        fetchMapCoordinates();
+    </script>
+</body>
+</html>
